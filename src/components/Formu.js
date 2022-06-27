@@ -28,21 +28,36 @@ function Formu() {
     //e.target.reset();    
   };
 
-  const buscarDNI = async () => {
+  const buscarDNI = async() => {
     
+    await axios.get(
+      "http://localhost:82/api/AfiliadoPlanMutual/" + dni.txtDni
+    ).then(response=>{
+      return response.data;
+    }).then(response=>{
+      if(response.length>0) {
+        var respuesta = response[0];
+        console.log(respuesta);
+      } else {
+        
+        console.log(response.afiNroDoc.length);
+      }
+    }).catch(error => {
+      console.log(error)
+    })
+    /*
     try {
       const { data: response } = await axios.get(
         "http://localhost:82/api/AfiliadoPlanMutual/" + dni.txtDni
       );
       
-      if (response.length>0) {
-        console.log(response);  
-      }
-      
+      console.log(response);  
       
     } catch (error) {
       console.error(error.message);
-    }    
+    } 
+    */
+
   };
   
   const [deudores, setDeudores] = useState([]);
