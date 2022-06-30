@@ -1,19 +1,17 @@
 import axios from "axios";
-import { useState, useEffect, Fragment } from "react";
-import { Button, Col, Row, Table } from "react-bootstrap";
+import { useState } from "react";
+import { Button } from "react-bootstrap";
 import logoReact from "../img/logo.svg";
+//import Cookies from "universal-cookie";
+
 
 
 //const dniContext = createContext();
 
 function Formu() {
   
-  /*
-  const {
-    register,
-    formState: { errors },    
-  } = useForm();
-  */
+  const urlDni = "http://localhost:82/api/AfiliadoPlanMutual/";  
+  //const cookies = new Cookies();
 
   const [dni, setDni] = useState({
     txtDni:''
@@ -30,18 +28,10 @@ function Formu() {
 
   const buscarDNI = async() => {
     
-    await axios.get(
-      "http://localhost:82/api/AfiliadoPlanMutual/" + dni.txtDni
-    ).then(response=>{
+    await axios.get(urlDni + dni.txtDni).then(response=>{
       return response.data;
-    }).then(response=>{
-      if(response.length>0) {
-        var respuesta = response[0];
-        console.log(respuesta);
-      } else {
-        
-        console.log(response.afiNroDoc.length);
-      }
+    }).then(response=>{            
+      console.log(response);      
     }).catch(error => {
       console.log(error)
     })
@@ -59,51 +49,23 @@ function Formu() {
     */
 
   };
-  
-  const [deudores, setDeudores] = useState([]);
-  const [loading, setLoading] = useState(true);  
+   
 
-  useEffect(() => {
-    /*
-    fetch("http://localhost:82/api/spDeudores")
-      .then((response) => {
-        return response.json();
-      })
-      .then((deudores) => {
-        setDeudores(deudores);
-      });
-    */
-
-      const fetchData = async () => {
-        setLoading(true);
-        try {
-          const { data: response } = await axios.get(
-            "http://localhost:82/api/spDeudores"
-          );
-          setDeudores(response);
-        } catch (error) {
-          console.error(error.message);
-        }
-        setLoading(false);
-      };
-
-      fetchData();
-
-  }, []);
-
-  function prueba(e) {
-    //alert(e.target.value);
-    document.getElementById("txtDNI").value = e.target.value;
-  }
 
   return (
-    <div>
-      <div className="col-12 mb-5">
-        <Fragment>
-          <div className="d-flex justify-content-center">
-            <Row>
-              <Col md={12}>
-                <div className="form-floating mb-3">
+
+      <div className="container mb-5">
+        <div className="row justify-content-center">
+          <div class="col col-lg-4">
+            <p className="fs-2">Plan salud Mutual</p>
+            <hr className="mb-5" />
+          </div>
+        </div>
+        <div className="row justify-content-center">
+          <div class="col col-lg-3">
+            <div className="card">
+              <div className="card-body mt-3">
+                <div className="form-floating">
                   <input
                     type="text"
                     className="form-control"
@@ -113,6 +75,8 @@ function Formu() {
                   />
                   <label htmlFor="dni">Ingrese DNI</label>
                 </div>
+              </div>
+              <div className="card-body">
                 <Button
                   type="submit"
                   variant="success"
@@ -126,76 +90,12 @@ function Formu() {
                     width={40}
                   />
                 </Button>{" "}
-              </Col>
-            </Row>
-          </div>
-        </Fragment>
-      </div>
-
-      {/*  <div className="col-12 mb-5">
-        <div>
-          {dni.map((item, index) => (
-            <div key={index}>
-              <dniContext.Provider value={item.dni}>
-                <Login dni={item.dni} />
-              </dniContext.Provider>
+              </div>
             </div>
-          ))}
-        </div>
-      </div> */}
-
-      <h2 className="mb-3">Deudores</h2>
-
-      {loading && (
-        <div className="d-flex justify-content-center">
-          <div
-            className="spinner-border content-align-center mt-3"
-            role="status"
-          >
-            <span className="visually-hidden">Loading...</span>
           </div>
         </div>
-      )}
-      {!loading && (
-        <Table className="table-success" bordered>
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>SECCIONAL</th>
-              <th>DNI</th>
-              <th>AFILIADO</th>
-              <th>DEBE</th>
-            </tr>
-          </thead>
 
-          <tbody>
-            {deudores.map((x, i) => {
-              return (
-                <tr key={i + 1}>
-                  <td>{i + 1}</td>
-                  <td>{x.secc_nombre}</td>
-                  <td>
-                    <Button
-                      onClick={prueba}
-                      value={x.afi_nro_doc}
-                      variant="light"
-                      size="sm"
-                    >
-                      {x.afi_nro_doc}
-                    </Button>
-                  </td>
-                  <td>
-                    {x.afi_Apellido}, {x.afi_Nombre}
-                  </td>
-                  <td>{x.deuda}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </Table>
-      )}
-
-    </div>
+      </div>    
   );
 }
 
