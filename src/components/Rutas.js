@@ -7,6 +7,7 @@ import {
   Routes,
   Route,
 } from "react-router-dom";
+import Deudores from './Deudores';
 
 
 
@@ -19,7 +20,8 @@ function Rutas() {
             <Routes>
               <Route exact path="/" element={<Home />} />
               <Route exact path="/afiliado/:dni" element={<IndexAfiliado />} />
-              <Route exact path="*" element={<Error404/>} />
+              <Route exact path="/deudores" element={<Deudores/>} />
+              <Route exact path="*" element={<Error404 />} />
             </Routes>
           </div>
         </div>

@@ -1,5 +1,5 @@
 import { React } from "react";
-import { Link } from "react-router-dom";
+//import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import axios from "axios";
 //import toast, { Toaster } from "react-hot-toast";
@@ -13,11 +13,13 @@ function Deudores() {
     const [deudores, setDeudores] = useState([]);
     const [loading, setLoading] = useState(true);
     
+    /*
     const [dni, setDni] = useState("");
 
     const dniChange = (event) => {
       setDni(event.target.value);      
     };
+    */
 
     useEffect(() => {      
       const fetchData = async () => {
